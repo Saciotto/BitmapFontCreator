@@ -40,8 +40,6 @@ namespace BitmapFontCreator
 
             [Option("strikeout", HelpText = "Text with a line through the middle.")]
             public bool Strikeout { get; set; }
-
-            
         }
 
         static void Main(string[] args)

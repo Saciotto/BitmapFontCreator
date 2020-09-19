@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Drawing.Text;
 using System.IO;
 
 namespace BitmapFontCreator
@@ -52,6 +53,7 @@ namespace BitmapFontCreator
         {
             Image image = new Bitmap(1, 1, PixelFormat.Format24bppRgb);
             Graphics drawing = Graphics.FromImage(image);
+            drawing.TextRenderingHint = TextRenderingHint.AntiAlias;
             SizeF textSize = drawing.MeasureString(text, font, 100, stringFormat);
             image.Dispose();
             drawing.Dispose();
@@ -73,6 +75,7 @@ namespace BitmapFontCreator
             Brush textBrush = new SolidBrush(Color.Black);
             stringFormat.Alignment = StringAlignment.Near;
             RectangleF rect = new RectangleF(LeftPadding, TopPadding, textSize.Width, textSize.Height);
+            drawing.TextRenderingHint = TextRenderingHint.AntiAlias;
             drawing.DrawString(text, font, Brushes.Black, rect, stringFormat);
             textBrush.Dispose();
             drawing.Dispose();
