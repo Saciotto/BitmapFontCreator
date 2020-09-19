@@ -26,6 +26,9 @@ namespace BitmapFontCreator
             [Option('b', "bottom-padding", Default = 0, HelpText = "Bottom padding in pixels")]
             public int BottomPadding { get; set; }
 
+            [Option('o', "output", HelpText = "Output directory")]
+            public String Output { get; set; }
+
             [Option("bold", HelpText = "Bold text")]
             public bool Bold { get; set; }
 
@@ -37,6 +40,8 @@ namespace BitmapFontCreator
 
             [Option("strikeout", HelpText = "Text with a line through the middle.")]
             public bool Strikeout { get; set; }
+
+            
         }
 
         static void Main(string[] args)
@@ -58,7 +63,8 @@ namespace BitmapFontCreator
                 TopPadding = opts.TopPadding,
                 LeftPadding = opts.LeftPadding,
                 RightPadding = opts.RightPadding,
-                BottomPadding = opts.BottomPadding
+                BottomPadding = opts.BottomPadding,
+                Output = opts.Output
             };
             fontBuilder.Build();
         }

@@ -11,6 +11,7 @@ namespace BitmapFontCreator
         public int RightPadding { get; set; }
         public int TopPadding { get; set; }
         public int BottomPadding { get; set; }
+        public String Output { get; set; }
 
         private readonly Font font;
 
@@ -22,18 +23,20 @@ namespace BitmapFontCreator
         public void Build()
         {
             String symbols = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~€™¡¢£¥©ª«®²³¹º»¿ÀÁÂÃÄÇÈÉÊËÍÎÏÑÓÔÕÚÛÜàáâãçèéêëíîïñóôõ÷úûü";
-            System.IO.Directory.CreateDirectory(font.Name);
+            if (Output == null) Output = font.Name;
+
+            System.IO.Directory.CreateDirectory(Output);
             int height = 0;
             foreach (char c in symbols)
             {
                 Image image = CreateCharImage(c, font);
                 String name = String.Format("C{0:X}.bmp", (int)c);
-                name = System.IO.Path.Combine(font.Name, name);
+                name = System.IO.Path.Combine(Output, name);
                 image.Save(name, ImageFormat.Bmp);
                 height = image.Height;
                 image.Dispose();
             }
-            String filename = System.IO.Path.Combine(font.Name, "height.txt");
+            String filename = System.IO.Path.Combine(Output, "height.txt");
             SaveHeight(filename, height);
         }
 

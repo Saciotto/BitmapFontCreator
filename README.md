@@ -29,6 +29,8 @@ Options:
 
   -b, --bottom-padding    (Default: 0) Bottom padding in pixels
 
+  -o, --output            Output directory
+
   --bold                  Bold text
 
   --italic                Italic text
