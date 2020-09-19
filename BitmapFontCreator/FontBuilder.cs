@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace BitmapFontCreator
 {
@@ -10,29 +11,37 @@ namespace BitmapFontCreator
         public int RightPadding { get; set; }
         public int TopPadding { get; set; }
         public int BottomPadding { get; set; }
-        public int Size { get; set; }
 
-        private readonly String fontFamily;
-        private Font font;
+        private readonly Font font;
 
-        public FontBuilder(String fontFamily)
+        public FontBuilder(String fontFamily, int size, FontStyle fontStyle)
         {
-            this.fontFamily = fontFamily;
-            Size = 16;
+            font = new Font(fontFamily, size, fontStyle);
         }
 
         public void Build()
         {
-            font = new Font(fontFamily, Size, FontStyle.Regular);
             String symbols = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~€™¡¢£¥©ª«®²³¹º»¿ÀÁÂÃÄÇÈÉÊËÍÎÏÑÓÔÕÚÛÜàáâãçèéêëíîïñóôõ÷úûü";
             System.IO.Directory.CreateDirectory(font.Name);
+            int height = 0;
             foreach (char c in symbols)
             {
                 Image image = CreateCharImage(c, font);
                 String name = String.Format("C{0:X}.bmp", (int)c);
                 name = System.IO.Path.Combine(font.Name, name);
                 image.Save(name, ImageFormat.Bmp);
+                height = image.Height;
                 image.Dispose();
+            }
+            String filename = System.IO.Path.Combine(font.Name, "height.txt");
+            SaveHeight(filename, height);
+        }
+
+        private void SaveHeight(String filename, int height)
+        {
+            using (StreamWriter outputFile = new StreamWriter(filename))
+            {
+                outputFile.WriteLine($"{height}");
             }
         }
 
